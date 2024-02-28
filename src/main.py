@@ -1,6 +1,6 @@
 # Jerry Zhang
-# Feb 15
-# pygame templete
+# Feb 27
+# Dungeon Navigator 
 
 # imports
 import pygame, random, math, sys
@@ -12,7 +12,7 @@ cloak = pygame.time.Clock()
 pygame.init()
 
 saw_blade_group = pygame.sprite.Group()
-saw_blade = obstical(400, 300, 0.25)
+saw_blade = obstical(400, 300, 0.1)
 saw_blade_group.add(saw_blade)
 
 Rungame = True
@@ -25,11 +25,10 @@ while Rungame:
             pygame.quit()
             sys.exit()
 
-
     # fill or image
     screen.fill((0, 0, 0))
 
-    saw_blade_group.update()
+    saw_blade_group.update(screen)
     saw_blade_group.draw(screen)
 
     pygame.display.update()
