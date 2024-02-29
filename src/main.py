@@ -5,14 +5,21 @@
 # imports
 import pygame, random, math, sys
 from Obstical import obstical
+from Player import player
 
-screen = pygame.display.set_mode((800, 600))
+SCREEN_DIMENTION = (800, 600)
+
+screen = pygame.display.set_mode(SCREEN_DIMENTION)
 pygame.display.set_caption("pygame review")
 cloak = pygame.time.Clock()
 pygame.init()
 
+character = pygame.sprite.GroupSingle()
+bobby = player()
+character.add(bobby)
+
 saw_blade_group = pygame.sprite.Group()
-saw_blade = obstical(400, 300, 0.1)
+saw_blade = obstical(400, 300, 0.1, move_range=(100, 100))
 saw_blade_group.add(saw_blade)
 
 Rungame = True
@@ -27,6 +34,9 @@ while Rungame:
 
     # fill or image
     screen.fill((0, 0, 0))
+
+    character.update(screen)
+    character.draw(screen)
 
     saw_blade_group.update(screen)
     saw_blade_group.draw(screen)

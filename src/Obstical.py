@@ -1,5 +1,6 @@
 import pygame, random
 
+
 class obstical(pygame.sprite.Sprite):
     def __init__(self, x, y, scale, speed = 1, move_range = (0, 0)):
         super().__init__()
@@ -9,7 +10,7 @@ class obstical(pygame.sprite.Sprite):
         self.scale = scale
         self.move_range = move_range
         
-        self.image = pygame.image.load("assets/image/saw_blade.png")
+        self.image = pygame.image.load("assets/image/saw_blade.png").convert_alpha()
         self.image = pygame.transform.rotozoom(self.image, 0, self.scale)
 
         self.rotating_image = self.image
@@ -19,6 +20,7 @@ class obstical(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
+    
 
         # Create a fixed hitbox
         self.hitbox = self.rect.copy()
@@ -33,11 +35,10 @@ class obstical(pygame.sprite.Sprite):
             self.yspeed = abs(self.rect.centery - self.move_range[self.direction][1])/20 * self.speed
 
     def update(self, screen):
-        self.rotate_angle += 20
-        if self.rotate_angle >= 360:
-            self.rotate_angle = 0
 
-        self.image = pygame.transform.rotate(self.rotating_image, self.rotate_angle)
+        self.rotate_image()
+        self.move(screen)
+
         self.rect = self.image.get_rect(center = self.rect.center)
 
         self.hitbox.center = self.rect.center
@@ -45,7 +46,13 @@ class obstical(pygame.sprite.Sprite):
         # Draw the hitbox for debugging
         pygame.draw.rect(screen, (255, 0, 0), self.hitbox, 2)
 
-        self.move(screen)
+    def rotate_image(self):
+
+        self.rotate_angle += 20
+        if self.rotate_angle >= 360:
+            self.rotate_angle = 0
+        
+        self.image = pygame.transform.rotate(self.rotating_image, self.rotate_angle)
         
     def move(self, screen):
 
@@ -69,3 +76,6 @@ class obstical(pygame.sprite.Sprite):
 
     def collide_hitbox(sprite1, sprite2):
         return sprite1.hitbox.colliderect(sprite2.rect)
+    
+if __name__ == "__main__":
+    test = obstical(1, 1, 1)
